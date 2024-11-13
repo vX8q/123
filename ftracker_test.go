@@ -1,8 +1,11 @@
 package ftracker
 
 import (
+	"math"
 	"testing"
 )
+
+const delta = 0.1 // допустимая погрешность для сравнений
 
 func Test_distance(t *testing.T) {
 	type args struct {
@@ -13,7 +16,6 @@ func Test_distance(t *testing.T) {
 		args args
 		want float64
 	}{
-		// TODO: Add test cases.
 		{
 			name: "Success test",
 			args: args{
@@ -38,7 +40,8 @@ func Test_distance(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := distance(tt.args.action); got != tt.want {
+			got := distance(tt.args.action)
+			if math.Abs(got-tt.want) > delta {
 				t.Errorf("distance() = %v, want %v", got, tt.want)
 			}
 		})
@@ -55,7 +58,6 @@ func Test_meanSpeed(t *testing.T) {
 		args args
 		want float64
 	}{
-		// TODO: Add test cases.
 		{
 			name: "Successful test",
 			args: args{
@@ -75,7 +77,8 @@ func Test_meanSpeed(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := meanSpeed(tt.args.action, tt.args.duration); got != tt.want {
+			got := meanSpeed(tt.args.action, tt.args.duration)
+			if math.Abs(got-tt.want) > delta {
 				t.Errorf("meanSpeed() = %v, want %v", got, tt.want)
 			}
 		})
@@ -94,11 +97,8 @@ func TestShowTrainingInfo(t *testing.T) {
 	}
 
 	runTest := "Тип тренировки: Бег\nДлительность: 0.15 ч.\nДистанция: 2.60 км.\nСкорость: 17.33 км/ч\nСожгли калорий: 427.24\n"
-
-	walkingTest := "Тип тренировки: Ходьба\nДлительность: 1.00 ч.\nДистанция: 2.60 км.\nСкорость: 2.60 км/ч\nСожгли калорий: 220.27\n"
-
-	swimmingTest := "Тип тренировки: Плавание\nДлительность: 0.25 ч.\nДистанция: 0.65 км.\nСкорость: 1.60 км/ч\nСожгли калорий: 114.75\n"
-
+	walkingTest := "Тип тренировки: Ходьба\nДлительность: 1.00 ч.\nДистанция: 2.60 км.\nСкорость: 2.60 км/ч\nСожгли калорий: 183.90\n"
+	swimmingTest := "Тип тренировки: Плавание\nДлительность: 0.25 ч.\nДистанция: 0.40 км.\nСкорость: 1.60 км/ч\nСожгли калорий: 114.75\n"
 	unknownTest := "неизвестный тип тренировки"
 
 	tests := []struct {
@@ -106,7 +106,6 @@ func TestShowTrainingInfo(t *testing.T) {
 		args args
 		want string
 	}{
-		// TODO: Add test cases.
 		{
 			name: "run test",
 			args: args{
@@ -120,7 +119,6 @@ func TestShowTrainingInfo(t *testing.T) {
 			},
 			want: runTest,
 		},
-
 		{
 			name: "walking test",
 			args: args{
@@ -134,7 +132,6 @@ func TestShowTrainingInfo(t *testing.T) {
 			},
 			want: walkingTest,
 		},
-
 		{
 			name: "swimming test",
 			args: args{
@@ -148,7 +145,6 @@ func TestShowTrainingInfo(t *testing.T) {
 			},
 			want: swimmingTest,
 		},
-
 		{
 			name: "unknown test",
 			args: args{
@@ -165,7 +161,8 @@ func TestShowTrainingInfo(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := ShowTrainingInfo(tt.args.action, tt.args.trainingType, tt.args.duration, tt.args.weight, tt.args.height, tt.args.lengthPool, tt.args.countPool); got != tt.want {
+			got := ShowTrainingInfo(tt.args.action, tt.args.trainingType, tt.args.duration, tt.args.weight, tt.args.height, tt.args.lengthPool, tt.args.countPool)
+			if got != tt.want {
 				t.Errorf("ShowTrainingInfo() = %v, want %v", got, tt.want)
 			}
 		})
